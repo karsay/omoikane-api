@@ -7,14 +7,9 @@ import mysql.connector
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
     cnx = mysql.connector.connect(
-        # user="dododo",
-        # password='Hal12345',
-        # host="omoikane-db.mysql.database.azure.com",
-        # port=3306,
-        # database="omoikane_db",
-        user="fukui",
-        password='fukui',
-        host="localhost",
+        user="dododo",
+        password='Hal12345',
+        host="omoikane-db.mysql.database.azure.com",
         port=3306,
         database="omoikane_db",
     )
@@ -29,7 +24,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # cursor.execute(sql)
 
         # Select databases
-        cursor.execute("SELECT * FROM test")
+        cursor.execute("SELECT * FROM questions")
         result_list = cursor.fetchall()
 
         # Build result response text
@@ -39,7 +34,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             result_str_list.append(row_str)
         result_str = '\n'.join(result_str_list)
 
-        cnx.commit()
+        # cnx.commit()
         cursor.close()
         cnx.close()
 
