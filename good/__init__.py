@@ -1,24 +1,50 @@
 import logging
 
 import azure.functions as func
-
+import mysql.connector
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
 
+    cnx = mysql.connector.connect(
+        user="dododo",
+        password='Hal12345',
+        host="omoikane-db.mysql.database.azure.com",
+        port=3306,
+        database="omoikane_db",
+    )
+
+    #get
     name = req.params.get('name')
-    if not name:
-        try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
-        else:
-            name = req_body.get('name')
 
-    if name:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
-    else:
+    try:
+        # Insert database
+        cursor = cnx.cursor()
+        # sql = f"insert into questions(choiceWord, words, userId, schoolYear, subject, field) VALUES ('{choiceWord}','{words}',{userId},{schoolYear},'{subject}','{field}');"
+        # cursor.execute(sql)
+
+        # Select databases
+        cursor.execute("SELECT * FROM userData WHERE userId = '90032'")
+        result_list = cursor.fetchall()
+
+        # Build result response text
+        result_str_list = []
+        for row in result_list:
+            row_str = ', '.join([str(v) for v in row])
+            result_str_list.append(row_str)
+        result_str = '\n'.join(result_str_list)
+
+        # cnx.commit()
+        cursor.close()
+        cnx.close()
+
         return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-             status_code=200
+            # f"Hello, {choiceWord}/{words}/{userId}/{schoolYear}",
+            result_str,
+            status_code=200
+        )
+
+    except:
+        return func.HttpResponse(
+        "error",
+        status_code=200
         )

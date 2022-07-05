@@ -1,5 +1,4 @@
 import logging
-from nis import cat
 
 import azure.functions as func
 import mysql.connector
