@@ -37,11 +37,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     field.append(value)
 
         params = {
-            'JapaneseLanguage':field[0],
-            'Arithmetic':field[1],
-            'English':field[2],
-            'Science':field[3],
-            'SocialStudies':field[4],
+            'ProblemID':name,
         }
         
         json_str = json.dumps(params, ensure_ascii=False, indent=2)

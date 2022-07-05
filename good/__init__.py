@@ -24,7 +24,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # cursor.execute(sql)
 
         # Select databases
-        cursor.execute("SELECT JapaneseLanguage,Arithmetic,English,Science,SocialStudies FROM userData WHERE userId = '90032'")
+        cursor.execute("SELECT JapaneseLanguage,Arithmetic,English,Science,SocialStudies FROM userData WHERE userId = '"+ name +"'")
         result_list = cursor.fetchall()
 
         field = []
