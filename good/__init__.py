@@ -24,20 +24,20 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # cursor.execute(sql)
 
         # Select databases
-        cursor.execute("SELECT * FROM userData WHERE userId = '90032'")
+        cursor.execute("SELECT JapaneseLanguage,Arithmetic,English,Science,SocialStudies FROM userData WHERE userId = '90032'")
         result_list = cursor.fetchall()
 
-        # Build result response text
-        # result_str_list = []
-        # for row in result_list:
-        #     row_str = ', '.join([str(v) for v in row])
-        #     result_str_list.append(row_str)
-        # result_str = '\n'.join(result_str_list)
         field = []
-        cnt = 0
         for row in result_list:
             for v in row:
-                field.append(v)
+                temp = []
+                value = []
+                temp.append(v.split(','))
+                for i in temp:
+                    for o in i:
+                        sp = o.find(' ')
+                        value.append(o[0:sp])
+                    field.append(value)
 
         params = {
             'JapaneseLanguage':field[0],
@@ -54,7 +54,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         cnx.close()
 
         return func.HttpResponse(
-            # f"Hello, {choiceWord}/{words}/{userId}/{schoolYear}",
             json_str,
             status_code=200
         )
