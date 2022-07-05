@@ -1,5 +1,5 @@
 import logging
-from nis import cat
+# from nis import cat
 
 import azure.functions as func
 import mysql.connector
@@ -16,6 +16,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     #post
     choiceWord = req.get_json().get('choiceWord')
+    notChoiceWord = req.get_json().get('notChoiceWord')
     words = req.get_json().get('words')
     userId = req.get_json().get('userId')
     schoolYear = req.get_json().get('schoolYear')
@@ -23,12 +24,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     field = req.get_json().get('field')
 
     #get
-    #name = req.params.get('name')
+    # name = req.params.get('name')
 
     try:
         # Insert database
         cursor = cnx.cursor()
-        sql = f"insert into questions(choiceWord, words, userId, schoolYear, subject, field) VALUES ('{choiceWord}','{words}',{userId},{schoolYear},'{subject}','{field}');"
+        sql = f"insert into questions(choiceWord, notChoiceWord, words, userId, schoolYear, subject, field) VALUES ('{choiceWord}','{notChoiceWord}','{words}',{userId},{schoolYear},'{subject}','{field}');"
         cursor.execute(sql)
 
         # Select databases
