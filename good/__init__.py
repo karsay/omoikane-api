@@ -6,46 +6,62 @@ import json
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
+    # cnx = mysql.connector.connect(
+    #     user="dododo",
+    #     password='Hal12345',
+    #     host="omoikane-db.mysql.database.azure.com",
+    #     port=3306,
+    #     database="omoikane_db",
+    # )
+
     cnx = mysql.connector.connect(
-        user="dododo",
-        password='Hal12345',
-        host="omoikane-db.mysql.database.azure.com",
+        user="fukui",
+        password='fukui',
+        host="localhost",
         port=3306,
         database="omoikane_db",
     )
 
     #get
-    name = req.params.get('name')
-
+    #name = req.params.get('name')
+    userId = req.route_params.get('userId')
     try:
         # Insert database
         cursor = cnx.cursor()
-        # sql = f"insert into questions(choiceWord, words, userId, schoolYear, subject, field) VALUES ('{choiceWord}','{words}',{userId},{schoolYear},'{subject}','{field}');"
-        # cursor.execute(sql)
 
         # Select databases
-        cursor.execute("SELECT JapaneseLanguage,Arithmetic,English,Science,SocialStudies FROM userData WHERE userId = '"+ name +"'")
+        cursor.execute("SELECT JapaneseLanguage,Arithmetic,English,Science,SocialStudies FROM userData WHERE userId = '"+ userId +"'")
         result_list = cursor.fetchall()
 
-        field = []
+        threshold = 70
+        genre = []
+        score = []
         for row in result_list:
             for v in row:
                 temp = []
-                value = []
+                genretemp = []
+                scoretemp = []
                 temp.append(v.split(','))
                 for i in temp:
                     for o in i:
                         sp = o.find(' ')
-                        value.append(o[0:sp])
-                    field.append(value)
+                        if int(o[sp+1:]) >= threshold:
+                            genretemp.append(o[0:sp])
+                            scoretemp.append(o[sp+1:])
+                    genre.append(genretemp)
+                    score.append(scoretemp)
 
         params = {
-            'JapaneseLanguage':field[0],
-            'Arithmetic':field[1],
-            'English':field[2],
-            'Science':field[3],
-            'SocialStudies':field[4],
+            'JapaneseLanguage':genre[0],
+            'Arithmetic':genre[1],
+            'English':genre[2],
+            'Science':genre[3],
+            'SocialStudies':genre[4],
         }
+        # params = {
+        #     'genre1':genre,
+        #     'score1':score,
+        # }
         
         json_str = json.dumps(params, ensure_ascii=False, indent=2)
 

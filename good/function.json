@@ -9,7 +9,8 @@
       "methods": [
         "get",
         "post"
-      ]
+      ],
+      "route": "good/{userId:int?}"
     },
     {
       "type": "http",

@@ -15,12 +15,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     )
 
     #get
-    name = req.params.get('name')
+    userId = req.route_params.get('userId')
 
     try:
         cursor = cnx.cursor()
         # Select databases
-        cursor.execute("SELECT JapaneseLanguage,Arithmetic,English,Science,SocialStudies FROM userData WHERE userId = '"+ name +"'")
+        cursor.execute("SELECT JapaneseLanguage,Arithmetic,English,Science,SocialStudies FROM userData WHERE userId = '"+ userId +"'")
         result_list = cursor.fetchall()
 
         # Build result response text
@@ -37,7 +37,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     field.append(value)
 
         params = {
-            'ProblemID':name,
+            'ProblemID':userId,
         }
         
         json_str = json.dumps(params, ensure_ascii=False, indent=2)

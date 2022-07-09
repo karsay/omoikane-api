@@ -9,7 +9,8 @@
       "methods": [
         "get",
         "post"
-      ]
+      ],
+      "route": "weak/{userId:int?}"
     },
     {
       "type": "http",
