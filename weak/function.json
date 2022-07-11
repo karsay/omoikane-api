@@ -10,7 +10,7 @@
         "get",
         "post"
       ],
-      "route": "weak/{userId:int?}"
+      "route": "weak/{userId:alpha?}"
     },
     {
       "type": "http",

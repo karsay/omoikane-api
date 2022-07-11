@@ -31,48 +31,33 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         cursor = cnx.cursor()
 
         # Select databases
-        cursor.execute("SELECT subject,field,score,testDay FROM userData WHERE userId = '"+ userId +"'")
+        cursor.execute("SELECT JapaneseLanguage,Arithmetic,English,Science,SocialStudies FROM userData WHERE userId = '"+ userId +"'")
         result_list = cursor.fetchall()
 
-        list = []
-
+        threshold = 30
+        genre = []
+        score = []
         for row in result_list:
             for v in row:
-                listTemp = []
-                for i in v.split(','):
-                    listTemp.append(i)
-                list.append(listTemp)
-        
-        
-        threshold = 70
-        jpn = []
-        mat = []
-        eng = []
-        sci = []
-        soc = []
-        cnt = 0
-        for g in list[2]:
-            if int(g) >= threshold:
-                if list[0][cnt] == "国語":
-                    jpn.append(list[1][cnt])
-                if list[0][cnt] == "数学":
-                    mat.append(list[1][cnt])
-                if list[0][cnt] == "英語":
-                    eng.append(list[1][cnt])
-                if list[0][cnt] == "理科":
-                    sci.append(list[1][cnt])
-                if list[0][cnt] == "社会":
-                    soc.append(list[1][cnt])
-            cnt += 1
-
-
+                temp = []
+                genretemp = []
+                scoretemp = []
+                temp.append(v.split(','))
+                for i in temp:
+                    for o in i:
+                        sp = o.find(' ')
+                        if int(o[sp+1:]) <= threshold:
+                            genretemp.append(o[0:sp])
+                            scoretemp.append(o[sp+1:])
+                    genre.append(genretemp)
+                    score.append(scoretemp)
 
         params = {
-            'JapaneseLanguage':jpn,
-            'Arithmetic':mat,
-            'English':eng,
-            'Science':sci,
-            'SocialStudies':soc,
+            'JapaneseLanguage':genre[0],
+            'Arithmetic':genre[1],
+            'English':genre[2],
+            'Science':genre[3],
+            'SocialStudies':genre[4],
         }
         
         json_str = json.dumps(params, ensure_ascii=False, indent=2)

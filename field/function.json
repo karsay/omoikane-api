@@ -9,8 +9,7 @@
       "methods": [
         "get",
         "post"
-      ],
-      "route": "testhistory/{userId:alpha?}"
+      ]
     },
     {
       "type": "http",
