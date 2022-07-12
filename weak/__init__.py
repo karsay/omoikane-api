@@ -6,21 +6,21 @@ import json
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
-    # cnx = mysql.connector.connect(
-    #     user="dododo",
-    #     password='Hal12345',
-    #     host="omoikane-db.mysql.database.azure.com",
-    #     port=3306,
-    #     database="omoikane_db",
-    # )
-
     cnx = mysql.connector.connect(
-        user="fukui",
-        password='fukui',
-        host="localhost",
+        user="dododo",
+        password='Hal12345',
+        host="omoikane-db.mysql.database.azure.com",
         port=3306,
         database="omoikane_db",
     )
+
+    # cnx = mysql.connector.connect(
+    #     user="fukui",
+    #     password='fukui',
+    #     host="localhost",
+    #     port=3306,
+    #     database="omoikane_db",
+    # )
 
     #get
     #name = req.params.get('name')

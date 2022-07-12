@@ -6,21 +6,21 @@ import json
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
-    # cnx = mysql.connector.connect(
-    #     user="dododo",
-    #     password='Hal12345',
-    #     host="omoikane-db.mysql.database.azure.com",
-    #     port=3306,
-    #     database="omoikane_db",
-    # )
-
     cnx = mysql.connector.connect(
-        user="fukui",
-        password='fukui',
-        host="localhost",
+        user="dododo",
+        password='Hal12345',
+        host="omoikane-db.mysql.database.azure.com",
         port=3306,
         database="omoikane_db",
     )
+
+    # cnx = mysql.connector.connect(
+    #     user="fukui",
+    #     password='fukui',
+    #     host="localhost",
+    #     port=3306,
+    #     database="omoikane_db",
+    #)
 
     #get
     #name = req.params.get('name')
@@ -31,33 +31,46 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         cursor = cnx.cursor()
 
         # Select databases
-        cursor.execute("SELECT JapaneseLanguage,Arithmetic,English,Science,SocialStudies FROM userData WHERE userId = '"+ userId +"'")
+        cursor.execute("SELECT subject,field,score,testDay FROM userData WHERE userId = '"+ userId +"'")
         result_list = cursor.fetchall()
 
-        threshold = 30
-        genre = []
-        score = []
+        list = []
+
         for row in result_list:
             for v in row:
-                temp = []
-                genretemp = []
-                scoretemp = []
-                temp.append(v.split(','))
-                for i in temp:
-                    for o in i:
-                        sp = o.find(' ')
-                        if int(o[sp+1:]) <= threshold:
-                            genretemp.append(o[0:sp])
-                            scoretemp.append(o[sp+1:])
-                    genre.append(genretemp)
-                    score.append(scoretemp)
+                listTemp = []
+                for i in v.split(','):
+                    listTemp.append(i)
+                list.append(listTemp)
+        
+        
+        jpn = {}
+        mat = {}
+        eng = {}
+        sci = {}
+        soc = {}
+
+        cnt = 0
+        for g in list[0]:
+            if g == "国語":
+                jpn[list[1][cnt]]=list[2][cnt]
+            if g == "数学":
+                mat[list[1][cnt]]=list[2][cnt]
+            if g == "英語":
+                eng[list[1][cnt]]=list[2][cnt]
+            if g == "理科":
+                sci[list[1][cnt]]=list[2][cnt]
+            if g == "社会":
+                soc[list[1][cnt]]=list[2][cnt]
+            cnt += 1
+
 
         params = {
-            'JapaneseLanguage':genre[0],
-            'Arithmetic':genre[1],
-            'English':genre[2],
-            'Science':genre[3],
-            'SocialStudies':genre[4],
+            'JapaneseLanguage':jpn,
+            'Arithmetic':mat,
+            'English':eng,
+            'Science':sci,
+            'SocialStudies':soc,
         }
         
         json_str = json.dumps(params, ensure_ascii=False, indent=2)
