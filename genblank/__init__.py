@@ -1,8 +1,8 @@
 import logging
+from nis import cat
 
 import azure.functions as func
 import mysql.connector
-from nis import cat
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
