@@ -1,8 +1,11 @@
 from ast import Param
 import logging
+from posixpath import split
+from re import A
 import azure.functions as func
 import mysql.connector
 import json
+import random
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
@@ -40,6 +43,22 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             for v in row:
                 list.append(v)
             
+        list[3] = list[3].split(",")
+        
+        def rand():
+            rand = random.randint(0,3)
+            return rand
+
+        for i in range(10):
+            num1 = rand()
+            num2 = rand()
+            str1 = list[3][num1]
+            str2 = list[3][num2]
+            list[3][num1] = str2
+            list[3][num2] = str1
+
+
+
         params = {
             "question_ID":list[0],
             "question_creator":list[4],
