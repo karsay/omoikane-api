@@ -17,13 +17,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     )
 
     #post
-    choiceWord = req.get_json().get('choiceWord')
-    notChoiceWord = req.get_json().get('notChoiceWord')
+    sortWords = req.get_json().get('sortWords')
+    problemStatement = req.get_json().get('problemStatement')
     userId = req.get_json().get('userId')
     schoolYear = req.get_json().get('schoolYear')
     subject = req.get_json().get('subject')
     field = req.get_json().get('field')
-    divId = 2;
+    divId = 3;
 
     #get
     # name = req.params.get('name')
@@ -31,9 +31,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # headers = {"content-type": "application/json"}
     # r_get = requests.get('http://wordassociator.ap.mextractr.net/word_associator/api_query?query=' + choiceWord, headers=headers)
     # data = r_get.json()
-    # print(json.dumps(data, indent=4))
+    # # print(json.dumps(data, indent=4))
     # print(data)
-    words = choiceWord + ",テスト1,テスト2,テスト3"
+    words = ""
 
     # return func.HttpResponse(
     #         f"Hello, {choiceWord}/{words}/{userId}/{schoolYear}",
@@ -43,7 +43,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         # Insert database
         cursor = cnx.cursor()
-        sql = f"insert into questions(choiceWord, notChoiceWord, words, userId, schoolYear, subject, field, divId) VALUES ('{choiceWord}','{notChoiceWord}','{words}',{userId},{schoolYear},'{subject}','{field}','{divId}');"
+        sql = f"insert into questions(choiceWord, problemStatement, words, userId, schoolYear, subject, field, divId) VALUES ('{sortWords}','{problemStatement}','{words}',{userId},{schoolYear},'{subject}','{field}','{divId}');"
         cursor.execute(sql)
 
         # Select databases
@@ -72,8 +72,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     except:
         return func.HttpResponse(
-            {
-                "status":"error",
-            },
-            status_code=200
+        {
+            "status":"error",
+        },
+        status_code=200
         )
