@@ -26,19 +26,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     divId = 3;
 
     #get
-    # name = req.params.get('name')
-
-    # headers = {"content-type": "application/json"}
-    # r_get = requests.get('http://wordassociator.ap.mextractr.net/word_associator/api_query?query=' + choiceWord, headers=headers)
-    # data = r_get.json()
-    # # print(json.dumps(data, indent=4))
-    # print(data)
     words = ""
-
-    # return func.HttpResponse(
-    #         f"Hello, {choiceWord}/{words}/{userId}/{schoolYear}",
-    #         status_code=200
-    #     )
 
     try:
         # Insert database
