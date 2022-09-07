@@ -5,6 +5,9 @@ import azure.functions as func
 import mysql.connector
 import requests
 import json
+import requests
+from bs4 import BeautifulSoup
+import re
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 
@@ -26,19 +29,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     divId = 2;
 
     #get
-    # name = req.params.get('name')
+    url = "https://renso-ruigo.com/word/" + choiceWord
 
-    # headers = {"content-type": "application/json"}
-    # r_get = requests.get('http://wordassociator.ap.mextractr.net/word_associator/api_query?query=' + choiceWord, headers=headers)
-    # data = r_get.json()
-    # print(json.dumps(data, indent=4))
-    # print(data)
-    words = choiceWord + ",テスト1,テスト2,テスト3"
-
-    # return func.HttpResponse(
-    #         f"Hello, {choiceWord}/{words}/{userId}/{schoolYear}",
-    #         status_code=200
-    #     )
+    r = requests.get(url)
+    soup = BeautifulSoup(r.content, "html.parser")
+    elems = soup.find_all(href=re.compile("renso-ruigo.com/word/"))
+    words = choiceWord + "," + elems[0].contents[0] + "," + elems[1].contents[0] + "," + elems[2].contents[0]
 
     try:
         # Insert database
