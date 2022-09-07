@@ -5,3 +5,4 @@
 azure-functions
 mysql.connector
 requests
+beautifulsoup4

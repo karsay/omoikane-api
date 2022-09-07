@@ -18,7 +18,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     #post
     sortWords = req.get_json().get('sortWords')
-    problemStatement = req.get_json().get('problemStatement')
+    notChoiceWord = req.get_json().get('notChoiceWord')
     userId = req.get_json().get('userId')
     schoolYear = req.get_json().get('schoolYear')
     subject = req.get_json().get('subject')
@@ -31,7 +31,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         # Insert database
         cursor = cnx.cursor()
-        sql = f"insert into questions(choiceWord, problemStatement, words, userId, schoolYear, subject, field, divId) VALUES ('{sortWords}','{problemStatement}','{words}',{userId},{schoolYear},'{subject}','{field}','{divId}');"
+        sql = f"insert into questions(choiceWord, notChoiceWord, words, userId, schoolYear, subject, field, divId) VALUES ('{sortWords}','{notChoiceWord}','{words}',{userId},{schoolYear},'{subject}','{field}','{divId}');"
         cursor.execute(sql)
 
         # Select databases
