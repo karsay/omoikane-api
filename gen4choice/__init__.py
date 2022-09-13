@@ -33,7 +33,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     r = requests.get(url)
     soup = BeautifulSoup(r.content, "html.parser")
     elems = soup.find_all(href=re.compile("renso-ruigo.com/word/"))
-    words = choiceWord + "," + elems[0].contents[0] + "," + elems[1].contents[0] + "," + elems[2].contents[0]
+    words = choiceWord + ","
+    i = 0
+    cnt = 0
+    while True:
+        if cnt == 3:
+            break
+        if elems[i].contents[0] != choiceWord:
+            words += elems[i].contents[0] + ","
+            cnt = cnt+1
+        i = i+1
 
     try:
         # Insert database
