@@ -59,14 +59,18 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         dict = {}
 
         for row in result_list:
-
+            dict = {}
+            list.clear()
+            print("list:", list)
             for v in row:
                 # print("v:", v)
                 list.append(v)
 
+                """""
                 # 回答群シャッフル
                 if "list[3]" in locals():
                     list[3] = list[3].split(",")
+                    print("list[3]:", list[3])
 
                     def rand():
                         rand = random.randint(0,3)
@@ -79,12 +83,21 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                         str2 = list[3][num2]
                         list[3][num1] = str2
                         list[3][num2] = str1
+                        """
 
             if "v" in locals():
                 dict["question_ID"] = list[0]
                 dict["question_answer"] = list[1]
                 dict["question_text"] = list[2]
-                dict["question_fakeanswer"] = list[3]
+                dict["question_fakeanswer"] = []
+                list[3] = list[3].split(",")
+                list[3] = random.sample(list[3], 4)
+                # print(list[3])
+                dict["question_fakeanswer"].append(list[3][0])
+                dict["question_fakeanswer"].append(list[3][1])
+                dict["question_fakeanswer"].append(list[3][2])
+                dict["question_fakeanswer"].append(list[3][3])
+                # print(dict["question_fakeanswer"])
                 dict["question_creator"] = list[4]
                 dict["subject"] = list[5]
                 dict["question_fieldID"] = list[6]
@@ -92,9 +105,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 # print("dict:",dict)
                 list2.append(dict)
 
-                dict = {}
-                list.clear()
-                # print("list:", list)
+
 
         json_str = json.dumps(list2, ensure_ascii=False, indent=2)
         # print("list2:" ,list2)
